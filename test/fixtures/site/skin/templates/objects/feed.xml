@@ -1,0 +1,25 @@
+<meta name="layout" content=""/>
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>{{ site.title }}</title>
+ <link href="{{ feed.base_url }}/{{ feed.filename }}" rel="self"/>
+ <link href="{{ feed.base_url }}/"/>
+ <updated>{{ site.time | date_to_xmlschema }}</updated>
+ <id>{{ feed.base_url }}/</id>
+ <author>
+   <name>{{ feed.author.name }}</name>
+   <email>{{ feed.author.email }}</email>
+ </author>
+ 
+{% for post in posts %}
+ <entry>
+   <title>{{ post.title }}</title>
+   <link href="{{ feed.base_url }}{{ post.content_path }}"/>
+   <updated>{{ post.publish_date | date_to_xmlschema }}</updated>
+   <id>{{ feed.base_url }}{{ post.number }}</id>
+   <content type="html">{{ post.summary | xml_escape }}</content>
+ </entry>
+{% endfor %}
+ 
+</feed>

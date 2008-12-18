@@ -1,0 +1,8 @@
+<meta name="layout" content="main">
+<div class="pages">
+{% for page in pages %}
+  <div class="page summary">
+    <h2><a href="{{ page | link_rel }}">{{ page.title }}</a></h2>
+  </div>
+{% endfor %}
+</div>

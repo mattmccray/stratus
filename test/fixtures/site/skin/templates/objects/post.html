@@ -1,0 +1,11 @@
+<meta name="layout" content="main"/>
+<div class="post">
+  <h2>{{ this.title }}</h2>
+  <div class="body">
+    {{ this.summary }}
+    {{ this.body }}
+  </div>
+  <div class="meta">
+    Published on {{ this.publish_date | date:'%m/%d/%Y' }}. {{ this.body | number_of_words }} words.
+  </div>
+</div>

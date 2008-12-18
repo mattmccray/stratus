@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+#
+#  Copyright (c) 2008 M@ McCray. All rights reserved.
+$: << File.expand_path(File.dirname(__FILE__) + "/../lib")
+require "stratus"
+require "stratus/cli"
+
+Stratus::CLI.run(ARGV)
