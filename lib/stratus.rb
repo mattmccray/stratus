@@ -40,7 +40,7 @@ require 'active_support'
 require 'liquid'
 require 'redcloth' rescue LoadError
 require 'maruku' rescue LoadError
-require 'bluecloth' rescue LoadError
+#require 'bluecloth' rescue LoadError
 
 require 'stratus/generator'
 require 'stratus/resources'
