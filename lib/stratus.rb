@@ -1,5 +1,5 @@
 module Stratus
-  VERSION = "0.1"
+  VERSION = "0.2"
   LIBPATH = ::File.expand_path(::File.dirname(__FILE__)) + ::File::SEPARATOR
   PATH = ::File.dirname(LIBPATH) + ::File::SEPARATOR
   
@@ -38,12 +38,14 @@ require 'chronic'
 require 'hpricot'
 require 'active_support'
 require 'liquid'
+require 'redcloth' rescue LoadError
+require 'maruku' rescue LoadError
 
 require 'stratus/generator'
 require 'stratus/resources'
 require 'stratus/settings'
 require 'stratus/filters'
-#require 'stratus/tags'
+require 'stratus/tags'
 
 
 class String

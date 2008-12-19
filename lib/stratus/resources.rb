@@ -7,8 +7,26 @@ module Stratus::Resources
       @all ||= HashDB.new
     end
     
+    def register_content(content)
+      content.fixup_meta
+      if content.validate! # Should allow returning false to exclude from DB
+        collection_types << content.collection_type unless collection_types.include?( content.collection_type )
+        all << content
+      else
+        puts " - Skipping #{content.content_path}: failed validation"
+      end
+    end
+    
+    def homepage
+      @all.find(:first, :is_homepage=>true)
+    end
+
+    def collection_types
+      @collecton_types ||= []
+    end
+    
     # Only content objects
-    def collections(*args)
+    def content(*args)
       filter = args.extract_options!.merge! :content_type=>:content
       all.find((args.first || :all), filter)
     end

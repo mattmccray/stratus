@@ -56,10 +56,7 @@ class Base
   end
 
   def full_path
-    #filename = File.extname(@slug).empty? ? "#{@slug}.html" : @slug
-    #File.join(@collection_type, @slug, 'index.html')
-    #"#{ content_path }/#{ @slug }"
-    "#{ collection_type }/#{ @slug }"
+    is_homepage ? "" : "#{ collection_type }/#{ @slug }"
   end
   
   def output_path
@@ -67,13 +64,13 @@ class Base
   end
   
   def attachments
-    ::Stratus::Resources.attachments( :content_path=>content_path )
+    Stratus::Resources.attachments( :content_path=>content_path )
   end
   
   def attachments_hash
     returning( {} ) do |hash|
       attachments.each do |att|
-        slug = att.slug.gsub(metadata[:ext], '')
+        slug = att.slug.gsub(att.metadata[:ext], '')
         hash[slug] = att
       end
     end
@@ -108,17 +105,32 @@ class Base
     end
   end
   
+  def is_homepage
+    Stratus.setting('homepage') == content_path
+  end
+  
+  def next_content
+    Stratus::Resources.content(:first, :collection_type=>@collection_type, :index=>(@index + 1)) unless index.nil?
+  end
+
+  def prev_content
+    Stratus::Resources.content(:first, :collection_type=>@collection_type, :index=>(@index - 1)) unless index.nil?
+  end
+  
   def to_liquid
-    data = metadata.merge({
-      :slug => @slug,
-      :content_path => @content_path,
-      :collection_type => @collection_type,
-      :content_type => @content_type,
-      :full_path => full_path,
-      :source_path => source_path,
-      :attachments => attachments,
-      :attachment => attachments_hash
-    }).stringify_keys
+    data = rendered_attributes({
+      'slug'             => @slug,
+      'content_path'     => @content_path,
+      'collection_type'  => @collection_type,
+      'content_type'     => @content_type,
+      'full_path'        => full_path,
+      'source_path'      => source_path,
+      'attachments'      => attachments,
+      'attachment'       => attachments_hash,
+      'next'             => next_content,
+      'prev'             => prev_content,
+      'is_homepage'      => is_homepage
+    })
   end
   
   # Subclasses need to override this to ensure all the proper metadata exists
@@ -141,10 +153,25 @@ class Base
     end
     if metadata.has_key? :publish_date
       metadata[:publish_date] = Chronic.parse( metadata[:publish_date] )
+    else
+      metadata[:publish_date] = Time.now
     end
   end
   
 protected
+
+  def rendered_attributes(rendered_atts={})
+    context = Stratus::Generator::LiquidContext.new
+    context['this'] = rendered_atts
+    metadata.each do |key, value|
+      if value.is_a? String
+        rendered_atts[key.to_s] = Liquid::Template.parse(value).render(context, [Stratus::Filters])
+      else
+        rendered_atts[key.to_s] = value
+      end
+    end
+    rendered_atts
+  end
 
   def parse_file(filename)
     load_filedata(filename)

@@ -24,6 +24,11 @@ class Attachment < Base
   def output_path
     File.join(Stratus.output_dir, full_path)
   end
+  
+  def is_homepage?
+    false
+  end
+  
 
 protected
 

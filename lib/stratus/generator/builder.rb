@@ -11,17 +11,7 @@ class Builder
     info "Scanning source structure..."
     scanner = Stratus::Generator::Scanner.new(@root_path)
     scanner.sweep
-    
-    info "Validation..."
-    Stratus::Resources.all.each do |r|
-      r.fixup_meta
-      r.validate!
-    end
-    
-    #pp conf( :output )
-    
-    #info "Removing stale output"
-
+  
     info "Rendering output..."
     make_dir Stratus.output_dir
     Stratus::Resources.posts.each do |r|
@@ -48,18 +38,27 @@ class Builder
     write_file Stratus.output_dir('pages', 'index.html'), fix_up_paths(output)
 
     # Render HOME
-    output = renderer.render_index_for( 'home', nil )
-    write_file Stratus.output_dir('index.html'), fix_up_paths(output)
-    
+    home = Stratus::Resources.homepage
+    if home
+      output = renderer.render_content( home, '' )
+      #output = renderer.render_index_for( 'home', nil )
+      write_file Stratus.output_dir('index.html'), fix_up_paths(output)
+    else
+      puts "NO HOME PAGE DEFINED! UPDATE YOUR CONFIG FILE!!!"
+    end
     # TODO: Render FEED
 
-    # Copy skin files... ?
-    delete_file Stratus.output_dir('skin'), true
-    copy_file Stratus.site_path('skin', 'images'), Stratus.output_dir('skin', 'images')
-    copy_file Stratus.site_path('skin', 'styles'), Stratus.output_dir('skin', 'styles')
-    copy_file Stratus.site_path('skin', 'scripts'), Stratus.output_dir('skin', 'scripts')
+    copy_theme_files
 
-    # pp Stratus::Resources.all.db
+    #pp Stratus::Resources.all.db 
+  end
+
+  def copy_theme_files
+    delete_file Stratus.output_dir('theme'), true
+    theme = Stratus.setting('theme', 'default')
+    copy_file Stratus.site_path('themes', theme, 'images'), Stratus.output_dir('theme', 'images')
+    copy_file Stratus.site_path('themes', theme, 'styles'), Stratus.output_dir('theme', 'styles')
+    copy_file Stratus.site_path('themes', theme, 'scripts'), Stratus.output_dir('theme', 'scripts')
   end
 
 protected
@@ -68,9 +67,6 @@ protected
     @renderer ||= LiquidRenderer.new
   end
   
-  def conf(key, section='generator')
-    Stratus.settings[section][key]
-  end
   
   # Use logging?
   def info(msg, alt=nil)

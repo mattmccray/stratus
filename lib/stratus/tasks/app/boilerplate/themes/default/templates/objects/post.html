@@ -1,0 +1,22 @@
+<meta name="layout" content="main"/>
+<div class="post">
+  <h2>{{ this.title }}</h2>
+  <div class="body">
+    {{ this.summary }}
+    {{ this.body }}
+  </div>
+  <div class="meta">
+    Published on {{ this.publish_date | short_date }}. {{ this.body | number_of_words }} words.
+  </div>
+  <div>
+    <div>
+{% if this.prev %}
+      <a href="{{ this.prev | uri_rel }}">&laquo; {{ this.prev.title }}</a>
+{% endif %}
+      <a href="{{ page.home | uri_rel }}">Home</a>
+{% if this.next %}
+      <a href="{{ this.next | uri_rel }}">{{ this.next.title }} &raquo;</a>
+{% endif %}
+    </div>
+  </div>
+</div>

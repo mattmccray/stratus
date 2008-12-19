@@ -4,7 +4,11 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>{{ site.title }}</title>
-    <link rel="stylesheet" href="{{ 'skin/styles/main.css' | link_rel }}" type="text/css" media="screen" charset="utf-8">
+    <script src="{{ 'theme/scripts/code_highlighter.js' | uri_rel }}"></script>
+    <script src="{{ 'theme/scripts/code_syntax.js' | uri_rel }}"></script>
+    <link rel="stylesheet" href="{{ 'theme/styles/main.css' | uri_rel }}" type="text/css" media="screen" charset="utf-8"/>
+    <link rel="stylesheet" href="{{ 'theme/styles/code_syntax.css' | uri_rel }}" type="text/css" media="screen" charset="utf-8"/>
+    {{ this.head }}
   </head>
   <body>
     <div class="page-container">
@@ -15,11 +19,11 @@
         </div>
       </div>
       <div class="navigation">
-        <a href="{{ 'index.html' | link_rel }}">Home</a>
+        <a href="{{ page.home | uri_rel }}">Home</a>
         ::
-        <a href="{{ posts | link_rel }}">Archive</a>
+        <a href="{{ posts | uri_rel }}">Archive</a>
         ::
-        <a href="{{ page.about | link_rel }}">About</a>
+        <a href="{{ page.about | uri_rel }}">About</a>
       </div>
       <div class="contents">
         {{ content }}

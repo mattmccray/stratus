@@ -3,7 +3,11 @@
   <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
     <title>My Site</title>
-    <link href="../../skin/styles/main.css" rel="stylesheet" type="text/css" media="screen" charset="utf-8" />
+    <script src="../../theme/scripts/code_highlighter.js"></script>
+    <script src="../../theme/scripts/code_syntax.js"></script>
+    <link href="../../theme/styles/main.css" rel="stylesheet" type="text/css" media="screen" charset="utf-8" />
+    <link href="../../theme/styles/code_syntax.css" rel="stylesheet" type="text/css" media="screen" charset="utf-8" />
+    <script src="../../posts/new-blog/dom.js"></script>
   </head>
   <body>
     <div class="page-container">
@@ -36,9 +40,147 @@
 
 <p>Attachment path: posts/new-blog/old.html</p>
 
+<p>How about some code?</p>
+
+<pre><code class="javascript">/*
+  Not all functions will work in IE
+*/
+
+function DomElement(e) {
+  this.element = e;
+}
+
+DomElement.prototype = {
+  hasClass: function(className) {
+    return (this.element.className.indexOf(className) >= 0);
+  },
+
+  addClass: function(className, force) {
+    if(force ||  !this.hasClass(className) ) {
+      var klasses = this.element.className.split(' ')
+      klasses.push(className);
+      this.element.className = klasses.join(' ');
+    }
+    return this;
+  },
+
+  removeClass: function(className, force) {
+    if(force || this.hasClass(className)) {
+      var klasses = this.element.className.split(' ');
+      var newKlasses = [];
+      for (var i=0; i < klasses.length; i++) {
+        if(klasses[i] != className)
+          newKlasses.push(klasses[i]);
+      }
+      this.element.className = newKlasses.join(' ');
+    }
+    return this;
+  },
+
+  toggleClass: function(className) {
+    if( this.hasClass(className) ) {
+      this.removeClass( className, true );
+    } else {
+      this.addClass( className, true );
+    }
+    return this;
+  }
+}
+
+function dom(id) {
+  var elem = (typeof(id) == 'string') ? document.getElementById(id) : id;
+  return new DomElement( elem );
+}
+
+
+/*
+
+dom('home_button').hasClass('disabled');
+
+onclick="dom(this).toggleClass('selected')"
+
+onclick="dom(document.body).addClass('selected')"
+
+*/
+
+
+function StatefulElement(e) {
+  this.element = e;
+}
+
+StatefulElement.prototype = {
+  is: function(state) {
+    return (this.element.className.indexOf(state) >= 0);
+  },
+  has: function(state) {
+    return this.is(state);
+  },
+
+  set: function(state) {
+    if(! this.has(state) ) {
+      var klasses = this.element.className.split(' ')
+      klasses.push(state);
+      this.element.className = klasses.join(' ');
+    }
+    return this;
+  },
+
+  clear: function(state) {
+    if(this.has(state)) {
+      klasses = this.element.className.split(' ');
+      newKlasses = [];
+      for (var i=0; i < klasses.length; i++) {
+        if(klasses[i] != state && state != '*')
+          newKlasses.push(klasses[i]);
+      }
+      this.element.className = newKlasses.join(' ');
+    }
+    return this;
+  },
+  unset: function(state) {
+    return this.clear(state);
+  },
+
+  toggle: function(state) {
+    if(this.has(state)) this.clear( state );
+    else this.set( state );
+    return this;
+  }
+}
+
+function stateFor(id) {
+  var elem = (typeof(id) == 'string') ? document.getElementById(id) : id;
+  return new StatefulElement(elem);
+}
+
+
+/*
+
+stateFor(document.body).is('selected')
+
+stateFor(this).set('selected')
+
+stateFor(this).cleard('selected')
+
+stateFor(this).clear('*')
+
+*/</code></pre>
+
+<button onclick="alert(stateFor(document.body).is('loaded'))">Is Loaded?</button>
+
+
   </div>
   <div class="meta">
-    Published on 12/12/2008. 16 words.
+    Published on 12/12/2008. 285 words.
+  </div>
+  <div>
+    <div>
+
+      <a href="../../index.html">Home</a>
+
+      <a href="../../posts/fun-for-the-whole-family/index.html">Fun for the whole family &raquo;</a>
+
+    </div>
   </div>
 </div>
       </div>

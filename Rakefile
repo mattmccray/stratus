@@ -17,6 +17,7 @@ spec = Gem::Specification.new do |s|
   s.requirements << 'active_support'
   s.requirements << 'chronic'
   s.requirements << 'hpricot'
+  s.requirements << 'liquid'
   s.require_path = 'lib'
   s.autorequire = 'rake'
   s.files = File.read("Manifest").split

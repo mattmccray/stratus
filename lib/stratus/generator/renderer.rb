@@ -11,13 +11,11 @@ class LiquidRenderer
     @context = LiquidContext.new
   end
   
-  def render_content(content, state=nil, opts={})
+  def render_content(content, path_to_root='../../')
     in_context do
-      context.reverse_merge!( opts )
-      LiquidContext.path_to_root = '../../'
+      LiquidContext.path_to_root = path_to_root
       context['this'] = content
-      render_attributes( content )
-      template = template_for(content.collection_type, state)
+      template = template_for(content.collection_type, nil)
       context['content'] = parser_for(template).render(context, [Stratus::Filters])
       layout = layout_for(template)
       parser_for(layout).render(context, [Stratus::Filters])
@@ -25,20 +23,17 @@ class LiquidRenderer
   end
   
   # Currently unused... 
-  def render_content_fragment(content, state=nil, opts={})
+  def render_content_fragment(content, state=nil)
     in_context do
-      context.reverse_merge!( opts )
       #LiquidContext.path_to_root = '../../' ???
       context['this'] = content
-      render_attributes( content )
       template = template_for(content.collection_type, state)
       parser_for(template).render(context, [Stratus::Filters])
     end
   end
   
-  def render_index_for(collection_type, state='index', opts={})
+  def render_index_for(collection_type, state='index')
     in_context do
-      context.reverse_merge!( opts )
       LiquidContext.path_to_root = state.nil? ? '' : '../'
       template = template_for(collection_type, state)
       context['content'] = parser_for(template).render(context, [Stratus::Filters])
@@ -58,13 +53,17 @@ protected
   end
   
   # loops through all the metadata fields and processes them through Liquid...
-  def render_attributes(content)
-    content.metadata.each do |key, value|
-      if value.is_a? String
-        content.metadata[key] = Liquid::Template.parse(value).render(context, [Stratus::Filters])
-      end
-    end
-  end
+  # def render_attributes(content)
+  #   rendered_atts = {}
+  #   context['this'] = content
+  #   content.to_liquid.each do |key, value|
+  #     if value.is_a? String
+  #       puts "Rendering #{key} (#{value})"
+  #       rendered_atts[key] = Liquid::Template.parse(value).render(context, [Stratus::Filters])
+  #     end
+  #   end
+  #   rendered_atts
+  # end
   
   
   def parser_for(template)

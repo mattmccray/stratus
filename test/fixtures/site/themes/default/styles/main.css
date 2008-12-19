@@ -8,6 +8,10 @@ BODY {
   background: #555;
 }
 
+BODY BUTTON {
+  padding: 3px 10px;
+}
+
 .page-container {
   width: 650px;
   margin: 0 auto;

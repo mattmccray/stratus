@@ -1,0 +1,16 @@
+site:
+  title: "My Site"
+  subtitle: "... is rocktacular!"
+  theme: "default"
+  copyright: "&copy; 2008 Me. All rights reserved."
+  homepage: "pages/home"
+
+generator:
+  output: 'www'
+  tags: true
+  cleanup_tags: true
+  force_xhtml: false
+
+
+stratus: # Don't touch this section!
+  version: 0.2

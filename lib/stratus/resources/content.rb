@@ -8,7 +8,8 @@ class Content < Base
   end
 
   def full_path
-    "#{super()}/index.html"
+    parent_path = super
+    super.empty? ? "index.html" : "#{parent_path}/index.html"
   end
   
 end

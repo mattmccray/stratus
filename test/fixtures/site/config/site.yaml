@@ -3,6 +3,7 @@ site:
   subtitle: "... is a testacular site. Ew, that doesn't sound right at all."
   theme: "default"
   copyright: "&copy; 2008 Me. All rights reserved."
+  homepage: "pages/home"
 
 feed:
   type: 'atom'
@@ -21,4 +22,4 @@ generator:
 
 
 stratus: # Don't touch this section!
-  version: 0.1
+  version: 0.2

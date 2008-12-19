@@ -1,37 +1,19 @@
-module Jekyll
+module Stratus
   
-  class HighlightBlock < Liquid::Block
-    include Liquid::StandardFilters
-    
-    def initialize(tag_name, lang, tokens)
-      super
-      @lang = lang.strip
-    end
+  class TextileTag < Liquid::Block
+#    include Liquid::StandardFilters
   
     def render(context)
-      if Jekyll.pygments
-        render_pygments(context, super.to_s)
+      if defined?(RedCloth)
+        RedCloth.new( super.to_s ).to_html
       else
-        render_codehighlighter(context, super.to_s)
+        puts "You must had RedCloth installed to render textile!"
+        super.to_s
       end
     end
-    
-    def render_pygments(context, code)
-      "<notextile>" + Albino.new(code, @lang).to_s + "</notextile>"
-    end
-    
-    def render_codehighlighter(context, code)
-    #The div is required because RDiscount blows ass
-      <<-HTML
-<div>
-  <pre>
-    <code class='#{@lang}'>#{h(code).strip}</code>
-  </pre>
-</div>
-      HTML
-    end
   end
+
+  ::Liquid::Template.register_tag('textile', TextileTag)
   
 end
 
-Liquid::Template.register_tag('highlight', Jekyll::HighlightBlock)

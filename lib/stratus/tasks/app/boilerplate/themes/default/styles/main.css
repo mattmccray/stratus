@@ -1,0 +1,12 @@
+/*
+  Just a default CSS file -- blow it away and start fresh!
+*/
+
+BODY {
+  font-family: tahoma, sans-serif;
+}
+
+.page-container {
+  width: 700px;
+  margin: 0 auto;
+}
