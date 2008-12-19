@@ -1,3 +1,14 @@
+2008-12-18 21:40:18 -0600
+Updated manifest and gemspec
+ 
+2008-12-18 21:39:25 -0600
+Mostly functional now...
+* Added support for new:site
+* Added textile and markdown liquid tags
+
+2008-12-18 05:57:16 -0600
+First pass on builder
+ 
 2008-12-11 18:37:01 -0600
 Initial import of stratus
  
