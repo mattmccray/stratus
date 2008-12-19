@@ -42,30 +42,22 @@ module Stratus
 
     def url(input)
       base_url = Stratus.settings('base_url', nil, 'feed')
-      if input.is_a? Hash
-        "#{base_url}/#{input.full_path}"
-      else
-        "#{base_url}/#{input}"
-      end
+      base_url + uri(input)
     end
     
     def uri(input)
-      if input.is_a? Hash
-        "/#{input.full_path}"
+      case input
+      when Hash
+        "/#{input['full_path']}"
+      when Array
+        "/#{input[0]['collection_type']}/index.html"
       else
         "/#{input}"
       end
     end
     
     def uri_rel(input)
-      case input
-      when Hash
-        "#{Stratus::Generator::LiquidContext.path_to_root}#{input['full_path']}"
-      when Array
-        "#{Stratus::Generator::LiquidContext.path_to_root}#{input[0]['collection_type']}/index.html"
-      else
-        "#{Stratus::Generator::LiquidContext.path_to_root}#{input}"
-      end
+      uri(input)
     end
     
   end

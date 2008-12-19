@@ -22,4 +22,4 @@ generator:
 
 
 stratus: # Don't touch this section!
-  version: 0.2
+  version: 0.3

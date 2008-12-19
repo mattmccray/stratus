@@ -16,7 +16,7 @@ class Builder
     make_dir Stratus.output_dir
     Stratus::Resources.posts.each do |r|
       output = renderer.render_content( r )
-      write_file r.output_path, fix_up_paths(output)
+      write_file r.output_path, output
       # Copy attachments
       r.attachments.each do |attachment|
         copy_file attachment.source_path, attachment.output_path
@@ -24,25 +24,24 @@ class Builder
       
     end
     output = renderer.render_index_for( 'posts', 'index' )
-    write_file Stratus.output_dir('posts', 'index.html'), fix_up_paths(output)
+    write_file Stratus.output_dir('posts', 'index.html'), output
 
     Stratus::Resources.pages.each do |r|
       output = renderer.render_content( r )
-      write_file r.output_path, fix_up_paths(output)
+      write_file r.output_path, output
       # Copy attachments
       r.attachments.each do |attachment|
         copy_file attachment.source_path, attachment.output_path
       end
     end
     output = renderer.render_index_for( 'pages', 'index' )
-    write_file Stratus.output_dir('pages', 'index.html'), fix_up_paths(output)
+    write_file Stratus.output_dir('pages', 'index.html'), output
 
     # Render HOME
     home = Stratus::Resources.homepage
     if home
-      output = renderer.render_content( home, '' )
-      #output = renderer.render_index_for( 'home', nil )
-      write_file Stratus.output_dir('index.html'), fix_up_paths(output)
+      output = renderer.render_content( home, '.' )
+      write_file Stratus.output_dir('index.html'), output
     else
       puts "NO HOME PAGE DEFINED! UPDATE YOUR CONFIG FILE!!!"
     end
@@ -83,24 +82,6 @@ protected
   
   def fatal
     puts msg
-  end
-  
-  def fix_up_paths(output, path_to_root='/')
-    # doc = Hpricot(output)
-    #     doc.search("//[@src]") do |elem|
-    #       unless elem[:src] =~ /^(http|mailto|\/)/
-    #         puts "src: #{elem[:src]}"
-    #       end
-    #     end
-    #     puts "looking for @href"
-    #     doc.search("//[@href]") do |elem|
-    #       unless elem[:href] =~ /^(http|mailto|\/)/
-    #         puts "href: #{elem[:href]}"
-    #       end
-    #     end
-    #     
-    #     doc.to_html
-    output
   end
   
   # ================

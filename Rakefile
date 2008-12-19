@@ -43,7 +43,7 @@ end
 
 desc 'Clean up'
 task :clean => :clobber_package do
-  %w(diff diff email ri *.gem **/*~).each do |pattern|
+  %w(diff diff email ri *.gem **/*~ .DS_Store).each do |pattern|
     files = Dir[pattern]
     rm_rf files unless files.empty?
   end

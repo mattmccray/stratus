@@ -75,7 +75,6 @@ class Base
       end
     end
   end
-  
 
   def method_missing(name, *args)
     if name.to_s.ends_with? '='
@@ -118,7 +117,7 @@ class Base
   end
   
   def to_liquid
-    data = rendered_attributes({
+    @liquid_hash ||= rendered_attributes({
       'slug'             => @slug,
       'content_path'     => @content_path,
       'collection_type'  => @collection_type,
@@ -164,7 +163,7 @@ protected
     context = Stratus::Generator::LiquidContext.new
     context['this'] = rendered_atts
     metadata.each do |key, value|
-      if value.is_a? String
+      if value.is_a?( String ) and (value.include?("{{") or value.include?("{%"))
         rendered_atts[key.to_s] = Liquid::Template.parse(value).render(context, [Stratus::Filters])
       else
         rendered_atts[key.to_s] = value

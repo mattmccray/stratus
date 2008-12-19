@@ -6,10 +6,10 @@ And yes, I know, I'm on a weird cloud kick.
 
 # Todo
 
-
 * Read default content templates from config/defaults/
 * RSS/Atom feed generation
 * Incremental rendering
 * Publishing (S/FTP)
 * Tagging support (limited)
 * Category support (limited)
+* Add setting for including index or date (YYYY-MM-DD) in output slug

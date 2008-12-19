@@ -1,5 +1,5 @@
 module Stratus
-  VERSION = "0.2"
+  VERSION = "0.3"
   LIBPATH = ::File.expand_path(::File.dirname(__FILE__)) + ::File::SEPARATOR
   PATH = ::File.dirname(LIBPATH) + ::File::SEPARATOR
   
@@ -40,6 +40,7 @@ require 'active_support'
 require 'liquid'
 require 'redcloth' rescue LoadError
 require 'maruku' rescue LoadError
+require 'bluecloth' rescue LoadError
 
 require 'stratus/generator'
 require 'stratus/resources'

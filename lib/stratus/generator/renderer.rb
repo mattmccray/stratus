@@ -11,34 +11,34 @@ class LiquidRenderer
     @context = LiquidContext.new
   end
   
-  def render_content(content, path_to_root='../../')
+  def render_content(content, path_to_root='../..')
     in_context do
-      LiquidContext.path_to_root = path_to_root
       context['this'] = content
       template = template_for(content.collection_type, nil)
       context['content'] = parser_for(template).render(context, [Stratus::Filters])
       layout = layout_for(template)
-      parser_for(layout).render(context, [Stratus::Filters])
+      output = parser_for(layout).render(context, [Stratus::Filters])
+      fixup_paths(output, path_to_root)
     end
   end
   
   # Currently unused... 
-  def render_content_fragment(content, state=nil)
-    in_context do
-      #LiquidContext.path_to_root = '../../' ???
-      context['this'] = content
-      template = template_for(content.collection_type, state)
-      parser_for(template).render(context, [Stratus::Filters])
-    end
-  end
+  # def render_content_fragment(content, state=nil)
+  #   in_context do
+  #     context['this'] = content
+  #     template = template_for(content.collection_type, state)
+  #     output = parser_for(template).render(context, [Stratus::Filters])
+  #     fixup_paths(output, ')
+  #   end
+  # end
   
   def render_index_for(collection_type, state='index')
     in_context do
-      LiquidContext.path_to_root = state.nil? ? '' : '../'
       template = template_for(collection_type, state)
       context['content'] = parser_for(template).render(context, [Stratus::Filters])
       layout = layout_for(template)
-      parser_for(layout).render(context, [Stratus::Filters])
+      output = parser_for(layout).render(context, [Stratus::Filters])
+      fixup_paths(output, (state.nil? ? '.' : '..'))
     end
   end
   
@@ -52,20 +52,20 @@ protected
     results
   end
   
-  # loops through all the metadata fields and processes them through Liquid...
-  # def render_attributes(content)
-  #   rendered_atts = {}
-  #   context['this'] = content
-  #   content.to_liquid.each do |key, value|
-  #     if value.is_a? String
-  #       puts "Rendering #{key} (#{value})"
-  #       rendered_atts[key] = Liquid::Template.parse(value).render(context, [Stratus::Filters])
-  #     end
-  #   end
-  #   rendered_atts
-  # end
-  
-  
+  def fixup_paths(output, path_to_root='.')
+    doc = Hpricot(output)
+    doc.search("//[@src]") do |elem|
+      if elem[:src].starts_with? '/'
+        elem[:src] = path_to_root + elem[:src] 
+      end
+    end
+    doc.search("//[@href]") do |elem|
+      if elem[:href].starts_with? '/'
+        elem[:href] = path_to_root + elem[:href] 
+      end
+    end
+    doc.to_html
+  end  
   def parser_for(template)
     @parsers ||= Hash.new {|h,k| 
       h[k] = ::Liquid::Template.parse(k.body)
