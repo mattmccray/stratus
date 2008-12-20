@@ -8,11 +8,13 @@ module Stratus::Resources
     
     def register_content(content)
       content.fixup_meta
-      if content.validate! # Should allow returning false to exclude from DB
+      validates, msg = content.validate!
+      if validates
         collection_types << content.collection_type unless collection_types.include?( content.collection_type ) or content.content_type != :content
         all << content
       else
-        puts " - Skipping '#{content.content_path}': failed validation"
+        msg ||= "Failed validation..."
+        puts " * Skipping '#{content.content_path}': #{msg}"
       end
     end
     

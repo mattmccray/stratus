@@ -12,11 +12,11 @@ module Logging
     end
   end
   
-  def error
+  def error(msg)
     puts msg
   end
   
-  def fatal
+  def fatal(msg)
     puts msg
   end
   

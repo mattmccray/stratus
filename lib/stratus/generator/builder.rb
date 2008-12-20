@@ -80,9 +80,13 @@ protected
   end
   
   def copy_file(path, to)
-    make_dir( File.dirname( to ) )
-    FileUtils.cp_r path, to
-    info(" - #{ to }", '.')
+    unless File.exists?(path)
+      info(" ? #{ to }", '.')
+    else
+      make_dir( File.dirname( to ) )
+      FileUtils.cp_r path, to
+      info(" - #{ to }", '.')
+    end
   end
   
   def delete_file(path, force=false)
