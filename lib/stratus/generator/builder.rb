@@ -1,6 +1,7 @@
 module Stratus::Generator
 
 class Builder
+  include Stratus::Logging
   
   def initialize(root_path, verbose=true)
     @root_path = root_path
@@ -11,48 +12,44 @@ class Builder
     info "Scanning source structure..."
     scanner = Stratus::Generator::Scanner.new(@root_path)
     scanner.sweep
-  
+    
     info "Rendering output..."
     make_dir Stratus.output_dir
-    Stratus::Resources.posts.each do |r|
-      output = renderer.render_content( r )
-      write_file r.output_path, output
-      # Copy attachments
-      r.attachments.each do |attachment|
-        copy_file attachment.source_path, attachment.output_path
+    Stratus::Resources.collection_types.each do |col_type|
+      info "#{col_type.capitalize}..."
+      Stratus::Resources.content(:collection_type=>col_type).each do |r|
+        output = renderer.render_content( r )
+        write_file r.output_path, output
+        # Copy attachments
+        r.attachments.each do |attachment|
+          copy_file attachment.source_path, attachment.output_path
+        end
       end
-      
-    end
-    output = renderer.render_index_for( 'posts', 'index' )
-    write_file Stratus.output_dir('posts', 'index.html'), output
-
-    Stratus::Resources.pages.each do |r|
-      output = renderer.render_content( r )
-      write_file r.output_path, output
-      # Copy attachments
-      r.attachments.each do |attachment|
-        copy_file attachment.source_path, attachment.output_path
+      output = renderer.render_index_for( col_type )
+      write_file Stratus.output_dir(col_type, 'index.html'), output
+      if Stratus.content_setting( col_type, 'feed', true )
+        output = renderer.render_index_for( col_type, 'feed' )
+        write_file Stratus.output_dir(col_type, 'feed.xml'), output
       end
     end
-    output = renderer.render_index_for( 'pages', 'index' )
-    write_file Stratus.output_dir('pages', 'index.html'), output
-
+    
     # Render HOME
+    info "Homepage..."
     home = Stratus::Resources.homepage
     if home
       output = renderer.render_content( home, '.' )
       write_file Stratus.output_dir('index.html'), output
     else
-      puts "NO HOME PAGE DEFINED! UPDATE YOUR CONFIG FILE!!!"
+      error "NO HOME PAGE DEFINED! UPDATE YOUR CONFIG FILE!!!"
     end
-    # TODO: Render FEED
-
+    
     copy_theme_files
-
-    #pp Stratus::Resources.all.db 
+    
+    info "Done.", "\n"
   end
 
   def copy_theme_files
+    info "Theme..."
     delete_file Stratus.output_dir('theme'), true
     theme = Stratus.setting('theme', 'default')
     copy_file Stratus.site_path('themes', theme, 'images'), Stratus.output_dir('theme', 'images')
@@ -64,24 +61,6 @@ protected
 
   def renderer
     @renderer ||= LiquidRenderer.new
-  end
-  
-  
-  # Use logging?
-  def info(msg, alt=nil)
-    if @verbose
-      puts msg
-    else
-      puts alt unless alt.nil?
-    end
-  end
-  
-  def error
-    puts msg
-  end
-  
-  def fatal
-    puts msg
   end
   
   # ================

@@ -1,0 +1,79 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+BODY {
+  font-family: "tahoma";
+  background: #555;
+}
+
+BODY BUTTON {
+  padding: 3px 10px;
+}
+
+.page-container {
+  width: 650px;
+  margin: 0 auto;
+}
+
+.header {
+  background: #0080FF;
+  padding: 10px 25px;
+  color: #FFF;
+}
+
+.subtitle {
+  font-size: 75%;
+  font-weight: normal;
+  color: #6CF;
+}
+
+.navigation {
+  background: #222;
+  color: #999;
+  padding: 5px 10px;
+}
+  .navigation A {
+    color: #DDD;
+    font-size: 90%;
+  }
+  .navigation A:hover {
+    color: #FFF;
+  }
+
+.contents {
+  padding: 25px 0px;
+  background: #fff;
+}
+  .contents h1, .contents h2, .contents h3, .contents h4 {
+    color: #00367E;
+    padding: 3px 25px;
+  }
+  .contents P, .contents DT, .contents DD {
+    padding: 10px 25px;
+  }
+  .contents UL, .contents OL {
+    padding: 10px 25px;
+    padding-left: 50px;
+  }
+  .contents PRE {
+    background: #F0F0F0;
+    border-top: 2px solid #DDD;
+    border-bottom: 2px solid #DDD;
+    padding: 10px 25px;
+    margin: 10px 0px;
+  }
+  
+  
+.post {
+  padding-bottom: 50px;
+}
+  
+.footer {
+  background: #EEE;
+  padding: 15px;
+  font-size: 80%;
+  color: #999;
+  text-align: center;
+}

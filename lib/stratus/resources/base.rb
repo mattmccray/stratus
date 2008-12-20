@@ -20,11 +20,12 @@ slug:
 =end
 
 class Base
-  attr_reader :index, :slug, :content_path, :collection_type, :content_type, :source_path
+  attr_reader :slug, :content_path, :collection_type, :content_type, :source_path
+  attr_accessor :index
 
   def initialize(fullpath, content_path='', parse=:index)
     @source_path = fullpath
-    @slug = File.basename(fullpath)
+    @slug = (parse == :file) ? File.basename(fullpath) : File.basename(content_path)
     @content_type = :content
     @content_path = content_path
     @collection_type = content_path.split('/').first
@@ -32,12 +33,10 @@ class Base
     @is_template = false
     @index = if @slug =~ /^([\d]{3})_(.*)$/
       @slug = $2
-#      @content_path = "#{collection_type}/#{slug}"
       $1.to_i
     else
       nil
     end
-    
     case parse
     when :index
       parse_file(File.join(source_path, 'index.html'))
@@ -119,6 +118,7 @@ class Base
   def to_liquid
     @liquid_hash ||= rendered_attributes({
       'slug'             => @slug,
+      'index'            => @index,
       'content_path'     => @content_path,
       'collection_type'  => @collection_type,
       'content_type'     => @content_type,
@@ -160,15 +160,16 @@ class Base
 protected
 
   def rendered_attributes(rendered_atts={})
-    context = Stratus::Generator::LiquidContext.new
-    context['this'] = rendered_atts
+    @@context ||= Stratus::Generator::LiquidContext.new
+    @@context['this'] = rendered_atts
     metadata.each do |key, value|
       if value.is_a?( String ) and (value.include?("{{") or value.include?("{%"))
-        rendered_atts[key.to_s] = Liquid::Template.parse(value).render(context, [Stratus::Filters])
+        rendered_atts[key.to_s] = Liquid::Template.parse(value).render(@@context, [Stratus::Filters])
       else
         rendered_atts[key.to_s] = value
       end
     end
+    @@context['this'] = nil
     rendered_atts
   end
 

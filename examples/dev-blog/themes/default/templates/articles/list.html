@@ -1,0 +1,8 @@
+<meta name="layout" content="main">
+<div class="articles">
+{% for article in articles %}
+  <div class="article summary">
+    <h2><a href="{{ article | uri_rel }}">{{ article.title }}</a></h2>
+  </div>
+{% endfor %}
+</div>

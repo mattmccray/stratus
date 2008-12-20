@@ -2,7 +2,7 @@ $: << 'lib'
 require 'rake'
 require 'rake/testtask'
 require 'rake/gempackagetask'
-require 'stratus'
+require 'stratus/version'
 
 spec = Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY

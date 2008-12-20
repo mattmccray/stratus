@@ -17,9 +17,20 @@ feed:
 generator:
   output: 'www'
   tags: true
+  relative_links: true
   cleanup_tags: true
   force_xhtml: false
 
+content:
+  local_slug: 'index' # index | date | none
+  slug_format: '###'
+  
+  pages:
+    local_slug: 'none'
+
+  posts:
+    remote_slug: 'date'
+    slug_format: '%Y-%m-%d'
 
 stratus: # Don't touch this section!
   version: 0.3

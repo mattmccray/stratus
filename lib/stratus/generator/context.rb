@@ -7,13 +7,19 @@ class LiquidContext < Hash
   
   def initialize
     super
-    self.merge!({
+    site_data = {
       'site'  => Stratus.settings['site'],
-      'posts' => Stratus::Resources.posts(:sort_by=>:publish_date, :reverse=>true),
-      'post'  => hashify( Stratus::Resources.posts ),
-      'pages' => Stratus::Resources.pages(:sort_by=>:title),
-      'page'  => hashify( Stratus::Resources.pages )
-    })
+      'vars'  => Stratus.settings.fetch('vars', {})
+    }
+    Stratus::Resources.collection_types.each do |col_type|
+      sort_col = Stratus.content_setting(col_type, 'sort', 'index').to_sym
+      reversed = Stratus.content_setting(col_type, 'reverse', false)
+      collection_data = Stratus::Resources.content(:collection_type=>col_type, :sort_by=>sort_col, :reverse=>reversed)
+#      puts "#{col_type}: #{collection_data.length} items... (sorted by #{sort_col}#{reversed ? ', reversed': ''})"
+      site_data[col_type] = collection_data
+      site_data[col_type.singularize] = hashify(collection_data)
+    end
+    self.merge!(site_data)
     self
   end
   

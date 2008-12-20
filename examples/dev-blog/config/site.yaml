@@ -1,0 +1,21 @@
+site:
+  title: "My Site"
+  subtitle: "... is a testacular site. Ew, that doesn't sound right at all."
+  copyright: "&copy; 2008 Me. All rights reserved."
+  homepage: "pages/home"
+  base_url: "http://my.site"
+  theme: "default"
+  author:
+    name: "Me"
+    email: "my@email.com"
+
+generator:
+  output: 'www'
+  relative_links: true
+  cleanup_xhtml: true
+  force_xhtml: false
+  tagging: true
+
+
+stratus: # Don't touch this section!
+  version: 0.3

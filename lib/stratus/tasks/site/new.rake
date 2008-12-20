@@ -19,16 +19,24 @@ namespace :new do
     title = Stratus.args[1]
     slug = title.slugify
     date = Time.now
-    count = (Dir[Stratus.site_path('content', content_type, '*')].length + 1).to_s.rjust(3, '0')
+    slug_prefix = case Stratus.content_setting(content_type, 'local_slug', 'index')
+      when 'none'
+        ''
+      when 'index'
+        (Dir[Stratus.site_path('content', content_type, '*')].length + 1).to_s.rjust(3, '0')
+      when 'date'
+        date.strftime( Stratus.content_setting(content_type, 'slug_format', '%Y-%m-%d-') )
+    end
     template = ERB.new(CONTENT_TEMPLATE)
     body = template.result(binding)
-    dir_path = Stratus.site_path('content', content_type, "#{count}_#{slug}")
+    dir_path = Stratus.site_path('content', content_type, "#{slug_prefix}_#{slug}")
     file_path = File.join(dir_path, 'index.html')
     
     FileUtils.mkdir_p dir_path
     File.open(file_path, 'w') do |f|
       f.write body
     end
+    
     puts "Created #{file_path}"
     `$EDITOR #{file_path}` if ENV.has_key? 'EDITOR'
   end
@@ -55,6 +63,9 @@ namespace :new do
       template = ERB.new(COLLECTION_INDEX_TEMPLATE)
       body = template.result(binding)
       f.write body
+    end
+    File.open( Stratus.site_path('config', 'defaults', "#{single}.default.html"), 'w' ) do |f|
+      f.write CONTENT_DEFAULT_TEMPLATE
     end
   end
   
@@ -83,6 +94,19 @@ POST_TEMPLATE=<<-EOF
 </summary>
 <body>
   <p>I'm the main body.</p>
+</body>
+EOF
+
+CONTENT_DEFAULT_TEMPLATE=<<-EOF
+<head>
+  <title>{{ title }}</title>
+  <meta name="publish-date" content="{{ date | date:'%Y-%m-%d %H:%M' }}"/>
+</head>
+<summary>
+  <p>SUMMARY</p>
+</summary>
+<body>
+  <p>BODY.</p>
 </body>
 EOF
 

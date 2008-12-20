@@ -1,0 +1,58 @@
+<head>
+  <title>Animating NSViews in RubyCocoa</title>
+  <meta name="publish-date" content="2008-12-20 00:34"/>
+</head>
+<summary>
+  <p>Yesterday we talked about how to make nifty <a href="http://mattmccray.com/archive/2008/01/16/Selectable_Toolbar_Icons_in_Ru">selectable toolbars</a> like this:</p>
+
+  <p style="text-align:center;"><img src="http://www.mattmccray.com/images/selectable-toolbar.png" alt="selectable-toolbar.png" border="0" width="366" height="80" /></p>
+
+  <p>Now let's look at the finishing touch for our Preferences window; Animating the panel changes. We'll be flying through this at a pretty good clip, but don't worry. I'll provide the full source for your inspection.</p>
+</summary>
+<body>
+  <p>Yesterday we talked about how to make nifty <a href="http://mattmccray.com/archive/2008/01/16/Selectable_Toolbar_Icons_in_Ru">selectable toolbars</a> like this:</p>
+
+  <p style="text-align:center;"><img src="http://www.mattmccray.com/images/selectable-toolbar.png" alt="selectable-toolbar.png" border="0" width="366" height="80" /></p>
+
+  <p>Now let's look at the finishing touch for our Preferences window; Animating the panel changes. We'll be flying through this at a pretty good clip, but don't worry. I'll provide the full source for your inspection.</p>
+
+  <p>First off, let's add some new outlets to our window controller:</p>
+
+  {{ this.attachment.outlets | sourcecode}}
+
+  <p><img src="http://www.mattmccray.com/images/CustomView.png" alt="CustomView.png" border="0" width="135" height="54" align="right" /> Now in Interface Builder, we'll create the views for each preference pane by dragging Custom Views from the Library onto our Preferences.nib.</p>
+
+  <p><em>Note</em>: Be sure to drop the Custom Views on the main nib window in IB, not on the Preferences <code>NSWindow</code>. Your project (in IB) should look something like this:</p>
+
+  <div style="text-align:center;"><img src="http://www.mattmccray.com/images/Prefs-IB.png" alt="Prefs-IB.png" border="0" width="385" height="337" /></div>
+
+  <p>Hook up the outlets to the new views, and edit your preference panels to your heart's desire. From here, we go back to the code.</p>
+
+  <p><em>Tip</em>: Be sure to set the auto-sizing on your preference panels (the <code>NSView</code>s) so that it matches the <code>NSWindow</code>'s <code>contentView</code>.</p>
+
+  <p style="text-align:center;"><img src="http://www.mattmccray.com/images/Picture 5.png" alt="Picture 5.png" border="0" width="232" height="120"/></p>
+
+  <p>Next up are some helper methods for our window controller. I won't spend too much time explaining these, but they're pretty straight forward.</p>
+
+  {{ this.attachment.view_for_tag | sourcecode }}
+
+  <p><code>#viewForTag</code> actually returns our <code>NSView</code> and a title string.</p>
+
+  {{ this.attachment.new_frame | sourcecode }}
+
+  <p><code>#newFrameForNewContentView</code> calculates the new frame rectangle for the window based on the new view (preference pane).</p>
+
+  <p>Now we're ready to fill out our <code>selectPrefPanel</code> action:</p>
+
+  {{ this.attachment.ib_action | sourcecode }}
+
+
+  <p>Right on! Now we setup the initial pane when the window loads:</p>
+
+  {{ this.attachment.awake_from_nib | sourcecode }}
+
+  <p>That pretty much does it. Now you have a professional looking preferences window. So enough of those dang blasted <code>NSTabView</code>s!</p>
+
+  <p>Here's the completed <a href="http://pastie.textmate.org/140681">PreferencesController.rb</a>. Or, you can download the <a href="http://www.mattmccray.com/downloads/PreferencesExample.zip">full Xcode project</a>. (Requires Leopard, Xcode 3, and Interface Builder 3)</p>
+
+  <p>Happy coding!</p></body>

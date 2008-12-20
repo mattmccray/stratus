@@ -1,0 +1,35 @@
+<head>
+  <title>Liquid.js, A Non-Evaling Template Engine in JavaScript</title>
+  <meta name="publish-date" content="2008-12-20 01:11"/>
+</head>
+<summary>
+  <p>SUMMARY</p>
+</summary>
+<body>
+{% markdown %}
+Of late, I’ve needed a robust JavaScript template engine that doesn’t use `eval` (and preferably not `with`). Also, I’ve always liked [Liquid][].
+
+So, two plus two equals... JavaScript! Hah, you thought it was four, didn’t you? Well, that’s what you get for thinking.
+
+Yeah, long story short, I ported Liquid to JavaScript. You can grab it from github (where else?) here: <http://github.com/darthapo/liquid.js>
+
+I’m calling this version 0.1. It’s not battle tested yet, but I know it’ll work using Firefox 3+, Safari 3+, and Adobe Air 1.1.
+
+So what are the differences between running the Ruby version and the JavaScript version? Well, as far as the templates themselves, nothing. It’s a full port, so all of Liquid’s default tags and filters are supported in Liquid.js. I even added a placeholder function that you can implement yourself (based on your own needs) to support the ‘include’ tag.
+
+{{ this.attachment.liquid_example | sourcecode }}
+
+An easy way to include template in a page is to use script elements, like this:
+
+{{ this.attachment.html_test | sourcecode }}
+
+Currently, Liquid.js requires [MooTools][]. Some of the things I’d like to polish up:
+
+* Remove MooTools requirement, run entirely independent of any other js library
+* Add Rhino for console-based testing
+* Test, test, test on Internet <strike>Exploder</strike> Explorer
+
+[Liquid]: http://liquidmarkup.org
+[MooTools]: http://mootools.net/
+{% endmarkdown %}
+</body>

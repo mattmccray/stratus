@@ -2,6 +2,8 @@ require 'rubygems'
 require 'optparse'
 require 'rake'
 
+ENV['STRATUS_LOGGING'] = 'verbose'
+
 module Stratus
 
 class CLI
@@ -37,6 +39,9 @@ class CLI
     opts.on_tail( '-h', '--help', 'show this message' ) do
       @out.puts opts
       exit
+    end
+    opts.on_tail( '-q', '--quiet', 'show compact messages' ) do
+      ENV['STRATUS_LOGGING'] = 'quiet'
     end
     opts.on_tail( '--version', 'show version' ) do
       @out.puts "Stratus #{::Stratus::VERSION}"

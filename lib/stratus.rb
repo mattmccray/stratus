@@ -1,5 +1,4 @@
 module Stratus
-  VERSION = "0.3"
   LIBPATH = ::File.expand_path(::File.dirname(__FILE__)) + ::File::SEPARATOR
   PATH = ::File.dirname(LIBPATH) + ::File::SEPARATOR
   
@@ -38,16 +37,17 @@ require 'chronic'
 require 'hpricot'
 require 'active_support'
 require 'liquid'
-require 'redcloth' rescue LoadError
-require 'maruku' rescue LoadError
+require 'redcloth'
+require 'maruku'
+#require 'cgi' # for HTML Escaping...
 #require 'bluecloth' rescue LoadError
 
+require 'stratus/logging'
 require 'stratus/generator'
 require 'stratus/resources'
 require 'stratus/settings'
 require 'stratus/filters'
 require 'stratus/tags'
-
 
 class String
   def slugify
