@@ -8,12 +8,11 @@
     Published on {{ this.publish_date | short_date }}. {{ this.body | number_of_words }} words.
   </p>
   <p class="pager">
-{% if this.prev %}
-      <a href="{{ this.prev | uri_rel }}">&laquo; {{ this.prev.title }}</a>
-{% endif %}
-      <a href="{{ page.home | uri_rel }}">Home</a>
 {% if this.next %}
-      <a href="{{ this.next | uri_rel }}">{{ this.next.title }} &raquo;</a>
+      <a class="older" href="{{ this.next | uri_rel }}">&laquo; {{ this.next.title }}</a>
+{% endif %}
+{% if this.prev %}
+      <a class="newer" href="{{ this.prev | uri_rel }}">{{ this.prev.title }} &raquo;</a>
 {% endif %}
   </p>
 </div>

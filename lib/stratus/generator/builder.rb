@@ -46,6 +46,7 @@ class Builder
     copy_theme_files
     
     info "Done.", "\n"
+    growl "Build complete."
   end
 
   def copy_theme_files
@@ -90,6 +91,7 @@ protected
   end
   
   def delete_file(path, force=false)
+    return unless File.exists?(path)
     if force
       FileUtils.rm_rf( path )
     else
