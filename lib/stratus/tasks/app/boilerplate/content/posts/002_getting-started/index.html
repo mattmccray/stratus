@@ -1,0 +1,37 @@
+<head>
+  <title>Getting Started</title>
+  <meta name="publish-date" content="2008-12-18 20:00"/>
+</head>
+<summary>
+  <p>Hello, and welcome to your new stratus site!</p>
+</summary>
+<body>
+{% markdown %}
+Here's some things to keep in mind:
+
+* The homepage is under `pages/home`
+* You can create new collections of content via:
+
+      stratus new:collection COLLECTION_NAME
+
+* You can adjust the settings (for feeds, default sorting, and sluglines) in `config/content.yaml`
+* You specify the site's title, subtitle, author, url and more in `config/site.yaml`
+* If you want to customize the default (boilerplate) content that's created you can modify the templates in `config/defaults/COLLECTION_TYPE.html`
+* The `StratusSite` file is actually a Rakefile, so you can add your own tasks there
+
+### Some Helpful Tags/Filters
+
+Liquid is used for the templating system. Stratus comes with a few custom tags and filters to help out.
+
+`sourcecode`
+:   Both a tag and filter. If used as a tag, you can specify the language type. If used as a filter and you specify an attachment, it'll put it's contents inline. It's built for use with [CodeHighlighter][].
+
+`uri`
+:   Generates a URI for the specified content object or collection.
+
+`url`
+:   Generates a full URL (based on the url defined in `config/site.yaml`) for the specified content object or collection.
+
+[CodeHighlighter]: http://
+{% endmarkdown %}
+</body>

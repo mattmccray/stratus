@@ -1,0 +1,10 @@
+<meta name="layout" content="main">
+<div class="pages">
+{% for page in pages %}
+{% unless page.is_homepage %}
+  <div class="page summary">
+    <h2><a href="{{ page | uri }}">{{ page.title }}</a></h2>
+  </div>
+{% endunless %}
+{% endfor %}
+</div>

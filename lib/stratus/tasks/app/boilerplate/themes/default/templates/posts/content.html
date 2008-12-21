@@ -1,0 +1,19 @@
+<meta name="layout" content="main"/>
+<div class="post">
+  <h2>{{ this.title }}</h2>
+  <div class="meta">
+    Published on {{ this.publish_date | short_date }}.
+  </div>
+  <div class="body">
+    {{ this.body }}
+  </div>
+</div>
+<div class="pager">
+{% if this.next %}
+  <a href="{{ this.next | uri }}">&laquo; {{ this.next.title }}</a>
+{% endif %}
+  <!-- <a href="{{ page.home | uri }}">Home</a> -->
+{% if this.prev %}
+  <a href="{{ this.prev | uri }}">{{ this.prev.title }} &raquo;</a>
+{% endif %}
+</div>

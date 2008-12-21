@@ -107,12 +107,18 @@ class Base
     Stratus.setting('homepage') == content_path
   end
   
-  def next_content
-    Stratus::Resources.content(:first, :collection_type=>@collection_type, :index=>(@index + 1)) unless index.nil?
-  end
-
   def prev_content
-    Stratus::Resources.content(:first, :collection_type=>@collection_type, :index=>(@index - 1)) unless index.nil?
+    collection = Stratus::Generator::LiquidContext.site_data[ collection_type ]
+    idx = collection.index(self)
+    return false if idx.nil? or idx <= 0
+    collection[(idx - 1)]
+  end
+  
+  def next_content
+    collection = Stratus::Generator::LiquidContext.site_data[ collection_type ]
+    idx = collection.index(self)
+    return false if idx.nil? or idx >= (collection.length - 1)
+    collection[(idx + 1)]
   end
   
   def to_liquid

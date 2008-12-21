@@ -22,6 +22,37 @@ module Stratus
       input.split.length
     end
     
+    # Moved to base resource...
+    # def last(content)
+    #   return nil unless content.is_a? Hash and content.has_key?('collection_type')
+    #   collection = Stratus::Generator::LiquidContext.site_data[content['collection_type']]
+    #   collection.last
+    # end
+    # 
+    # def prev(content)
+    #   return nil unless content.is_a? Hash and content.has_key?('collection_type')
+    #   collection = Stratus::Generator::LiquidContext.site_data[content['collection_type']]
+    #   collection.each_with_index do |c,i|
+    #       return collection[(i - 1)] if c.slug == content['slug']
+    #   end
+    #   nil
+    # end
+    # 
+    # def next(content)
+    #   return nil unless content.is_a? Hash and content.has_key?('collection_type')
+    #   collection = Stratus::Generator::LiquidContext.site_data[content['collection_type']]
+    #   collection.each_with_index do |c,i|
+    #       return collection[(i + 1)] if c.slug == content['slug']
+    #   end
+    #   nil
+    # end
+    # 
+    # def first(content)
+    #   return nil unless content.is_a? Hash and content.has_key?('collection_type')
+    #   collection = Stratus::Generator::LiquidContext.site_data[content['collection_type']]
+    #   collection.first
+    # end
+    
     EXTS = {
       '.rb'   => 'ruby',
       '.css'  => 'css',

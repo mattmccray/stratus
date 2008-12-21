@@ -1,3 +1,35 @@
+2008-12-20 18:37:20 -0600
+Updated boilerplate, next/prev now honors your sorting settings, memoized LiquidContext's site_data.
+ 
+2008-12-20 16:29:37 -0600
+New: ignoring post dated content, validation failure messsages. Bugfixes: copy_file exceptions.
+* Copying a file that doesn't exist will no longer throw an exception.
+* Added support for validation failure messages
+* Added validation for Content resources to be skipped if they are post dated
+
+2008-12-20 05:31:31 -0600
+Nearing core feature completion...
+* All collection types are rendered now, not just pages and posts
+* Feed are generated for collection types
+* Moved content configuration into config/content.yaml
+* Added simple logging
+* Added configuration options for creating relative links, forcing XHTML support and more
+* Added sourcecode Liquid filter and tag.
+  - Tag: It will take all the contents within the tag and create pre/code wrapper around it.
+  - Filter: If an attachment is passed, it will load it and insert it's contents within a pre/code wrapper.
+
+2008-12-19 03:33:02 -0600
+Returned markdown support to Maruku
+ 
+2008-12-19 03:31:29 -0600
+Performance updates
+* All paths are absolute uris (no more path_to_root during Liquid rendering)
+* Relative paths are generated after the page generation using Hpricot
+* Memoized liquid hash generation
+
+2008-12-18 21:41:51 -0600
+Updated changelog
+ 
 2008-12-18 21:40:18 -0600
 Updated manifest and gemspec
  

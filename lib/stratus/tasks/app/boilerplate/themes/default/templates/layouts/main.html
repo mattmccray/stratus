@@ -4,27 +4,34 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>{{ site.title }}</title>
-    <link rel="stylesheet" href="{{ 'theme/styles/main.css' | uri_rel }}" type="text/css" media="screen" charset="utf-8"/>
+    <link rel="stylesheet" href="/theme/styles/main.css" type="text/css" media="screen" charset="utf-8"/>
+    <script src="/theme/scripts/site.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/posts/feed.xml" />
     {{ this.head }}
   </head>
-  <body>
-    <div class="page-container">
-      <div class="header">
+  <body class="{{ this.collection_type }}">
+    <div id="header">
+      <div class="page-container">
         <h1>{{ site.title }}</h1>
         <div class="subtitle">
           {{ site.subtitle }}
         </div>
       </div>
-      <div class="navigation">
-        <a href="{{ page.home | uri_rel }}">Home</a>
-        ::
-        <a href="{{ posts | uri_rel }}">Archive</a>
+    </div>
+    <div class="page-container">
+      <div id="sidebar">
+        <ul class="navigaiton">
+          <li><a href="{{ page.home | uri }}">Home</a></li>
+          <li><a href="{{ posts | uri }}">Archive</a></li>
+        </ul>
       </div>
-      <div class="contents">
+      <div id="contents">
         {{ content }}
       </div>
-      <div class="footer">
-        {{ site.copyright }}
+    </div>
+    <div id="footer">
+      <div class="page-container">
+        {{ site.copyright }} Sited generated with <a href="http://darthapo.github.com/stratus">Stratus</a>
       </div>
     </div>
   </body>
