@@ -19,7 +19,10 @@ module Stratus
     end
     
     def number_of_words(input)
-      input.split.length
+      s = strip_html(CGI::unescapeHTML(input))
+      s.gsub!(/[\w|\']+/, 'X')
+      s.gsub!(/\W+/, '')
+      s.length
     end
     
     # Moved to base resource...

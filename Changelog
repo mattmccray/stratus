@@ -1,4 +1,10 @@
-2008-12-20 18:37:20 -0600
+2008-12-22 02:05:00 -0600
+Updated boilerplate site, updated number_of_words filter
+ 
+2008-12-21 02:30:26 -0600
+Udpated example dev-blog and added support Growl, if you have ruby-growl installed.
+ 
+2008-12-20 18:38:48 -0600
 Updated boilerplate, next/prev now honors your sorting settings, memoized LiquidContext's site_data.
  
 2008-12-20 16:29:37 -0600
