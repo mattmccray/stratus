@@ -54,9 +54,12 @@ protected
   
   # Allows all context changes to be scoped
   def in_context(&block)
-    old_context = @context.clone
+    #old_context = @context.clone
     results = yield
-    @context = old_context
+    # Make sure stuff doesn't bleed over...
+    @context['this'] = nil
+    @context['content'] = nil
+    #@context = old_context
     results
   end
   

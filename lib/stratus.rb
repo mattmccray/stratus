@@ -42,6 +42,7 @@ require 'maruku'
 #require 'cgi' # for HTML Escaping...
 #require 'bluecloth' rescue LoadError
 
+require 'stratus/version'
 require 'stratus/logging'
 require 'stratus/generator'
 require 'stratus/resources'

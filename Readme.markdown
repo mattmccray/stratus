@@ -12,3 +12,7 @@ And yes, I know, I'm on a weird cloud kick.
 * Publishing (S/FTP)
 * Tagging support (limited)
 * Category support (limited)
+
+# Ideas
+
+* `vimeo` tag that embeds a thumbnail image with a link to the vimeo page (metadata: http://vimeo.com/api/clip/963462.xml)

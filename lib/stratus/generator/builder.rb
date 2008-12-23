@@ -9,10 +9,21 @@ class Builder
   end
   
   def execute
+    sweep_content
+    render_content
+    copy_theme_files
+    
+    info "Done.", "\n"
+    growl "Build complete."
+  end
+
+  def sweep_content
     info "Scanning source structure..."
     scanner = Stratus::Generator::Scanner.new(@root_path)
     scanner.sweep
-    
+  end
+  
+  def render_content
     info "Rendering output..."
     make_dir Stratus.output_dir
     Stratus::Resources.collection_types.each do |col_type|
@@ -42,11 +53,6 @@ class Builder
     else
       error "NO HOME PAGE DEFINED! UPDATE YOUR CONFIG FILE!!!"
     end
-    
-    copy_theme_files
-    
-    info "Done.", "\n"
-    growl "Build complete."
   end
 
   def copy_theme_files
@@ -106,6 +112,18 @@ class << self
   
   def build(root_path)
     Builder.new(root_path).execute
+  end
+  
+  def page_tree(root_path)
+    builder = Builder.new(root_path)
+    builder.sweep_content
+    
+    Stratus::Resources.collection_types.sort.each do |col_type|
+      puts "#{ col_type }/"
+      Stratus::Resources.content(:collection_type=>col_type, :sort_by=>:slug).each do |r|
+        puts "   #{ r.slug }"
+      end
+    end
   end
   
 end

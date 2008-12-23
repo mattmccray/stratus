@@ -16,6 +16,11 @@ namespace :site do
     puts "  Up to date."
   end
 
+  desc "Displays a page tree of the content..."
+  task :tree=>'system:setup' do
+    Stratus::Generator.page_tree(ROOT_PATH)
+  end
+
 end
 
 task :default=>'site:build'

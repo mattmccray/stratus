@@ -2,12 +2,12 @@
 
 Gem::Specification.new do |s|
   s.name = %q{stratus}
-  s.version = "0.3"
+  s.version = "0.3.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["M@ McCray"]
   s.autorequire = %q{rake}
-  s.date = %q{2008-12-22}
+  s.date = %q{2008-12-23}
   s.default_executable = %q{stratus}
   s.description = %q{A simple static blog building tool.}
   s.email = %q{darthapo@gmail.com}

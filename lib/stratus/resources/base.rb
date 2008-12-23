@@ -196,6 +196,10 @@ protected
       # Coerce the meta data value if it's defined...
       content = if meta_tag[:type]
         case meta_tag[:type].downcase.to_sym
+        when :bool
+          (meta_tag[:content] == 'true')
+        when :boolean
+          (meta_tag[:content] == 'true')
         when :int
           meta_tag[:content].to_i
         when :integer

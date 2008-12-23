@@ -1,4 +1,7 @@
-2008-12-22 02:05:00 -0600
+2008-12-23 15:43:50 -0600
+Added 'site:tree' task to print entire collection tree to console.
+ 
+2008-12-22 02:05:38 -0600
 Updated boilerplate site, updated number_of_words filter
  
 2008-12-21 02:30:26 -0600
