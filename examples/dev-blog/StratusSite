@@ -1,4 +1,4 @@
-# I'm a rake file, so you can put Rake tasks in here, if you like...
+# I'm a rake file, so you can put Rake tasks in here, if you like... or in tasks/*.rake
 
 
 namespace :new do

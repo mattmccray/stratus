@@ -16,6 +16,7 @@ class CLI
   def run(args)
     args = args.dup
     parse args
+    
     init args
     rake
   end

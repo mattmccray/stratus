@@ -32,13 +32,22 @@ module Stratus
   
 end
 
+def safely_require(lib)
+  require lib
+rescue LoadError
+  puts "  ! Couldn't load: #{lib}"
+end
+
 require 'rubygems'
 require 'chronic'
 require 'hpricot'
 require 'active_support'
 require 'liquid'
-require 'redcloth'
-require 'maruku'
+safely_require 'redcloth'
+safely_require 'maruku'
+
+# Other types of markup tools?
+
 #require 'cgi' # for HTML Escaping...
 #require 'bluecloth' rescue LoadError
 

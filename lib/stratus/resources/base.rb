@@ -97,7 +97,7 @@ class Base
   end
   def []=(key, value)
     if self.respond_to? key.to_sym
-      self.send(key.to_sym)
+      self.send(key.to_sym) # Huh?
     else
       metadata[key] = value
     end
@@ -179,6 +179,9 @@ protected
     rendered_atts
   end
 
+
+
+  # FIXME: Work with YAML headers instead of wonky quasi-XML
   def parse_file(filename)
     load_filedata(filename)
     if File.size(filename) == 0
@@ -209,9 +212,9 @@ protected
         when :double
           meta_tag[:content].to_f
         when :array
-          meta_tag[:content].split(',')
+          meta_tag[:content].split(',').map {|ai| ai.strip }
         when :list
-          meta_tag[:content].split(',')
+          meta_tag[:content].split(',').map {|ai| ai.strip }
         when :date
           Chronic.parse( meta_tag[:content] )
         else

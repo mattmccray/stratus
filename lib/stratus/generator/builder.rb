@@ -11,6 +11,7 @@ class Builder
   def execute
     sweep_content
     render_content
+    copy_static_files
     copy_theme_files
     
     info "Done.", "\n"
@@ -62,6 +63,16 @@ class Builder
     copy_file Stratus.site_path('themes', theme, 'images'), Stratus.output_dir('theme', 'images')
     copy_file Stratus.site_path('themes', theme, 'styles'), Stratus.output_dir('theme', 'styles')
     copy_file Stratus.site_path('themes', theme, 'scripts'), Stratus.output_dir('theme', 'scripts')
+  end
+  
+  def copy_static_files
+    if(File.exists?(Stratus.site_path('static')))
+      info "Static Files..."
+      Dir[Stratus.site_path('static', '*')].each do |path|
+        rel_path = path.gsub(Stratus.site_path('static')+"/", '')
+        copy_file Stratus.site_path('static', rel_path), Stratus.output_dir(rel_path)
+      end
+    end
   end
 
 protected

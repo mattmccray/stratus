@@ -49,6 +49,11 @@ task :clean => :clobber_package do
   end
 end
 
+desc "Builds, packages and installs locally..."
+task :build_and_install => ['manifest:create', :repackage] do
+  puts `sudo gem install ./pkg/stratus-#{Stratus::VERSION}.gem`
+end
+
 namespace :manifest do
   desc "Verify the manifest"
   task :check => :clean do
